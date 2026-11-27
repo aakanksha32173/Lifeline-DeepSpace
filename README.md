@@ -4,7 +4,7 @@
 
 During an emergency the same flood gets reported ten times: by a field unit, a phone call, three social posts. Lifeline reads each report, works out whether it describes an incident the team already knows about, and keeps one ranked, de-duplicated queue on a map that every responder sees update in real time.
 
-Live app: `https://<name>.app.space` (filled in after deploy)
+Live app: https://lifeline.app.space
 
 ## Try it
 
