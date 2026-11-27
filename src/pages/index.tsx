@@ -1,49 +1,58 @@
 /**
- * Landing page — a STATIC page.
- *
- * It lives at the top level of src/pages/ (not under (app)/), so it renders
- * with no DeepSpace providers: no auth session fetch, no records WebSocket.
- * That makes it cheap to serve and safe for logged-out / crawler traffic.
- *
- * Need live data or auth here? Move this file to src/pages/(app)/index.tsx
- * and it becomes a dynamic page. Conversely, any page you want to keep static
- * (marketing, docs, legal) belongs at this top level.
- *
- * Top-level pages are also prerendered to static HTML at build
- * (prerender.ts, via vite.config.ts) so crawlers read real content.
- * Keep them renderable without a browser: no window/document during render,
- * prose in HTML text, reveal animations in CSS keyframes rather than JS-driven
- * initial states. `<Seo>` comes first and reads src/seo.ts.
+ * Landing page: static and prerendered (no auth call, no WebSocket), so it is
+ * cheap and readable by crawlers. The live board is behind sign-in at /board.
  */
 
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/Seo'
-import { APP_NAME } from '../constants'
 import { seo } from '../seo'
+
+const STEPS = [
+  ['Report', 'Anyone on the team types what they see, in their own words. An AI model reads it for type, urgency, needs and place.'],
+  ['Fuse', 'Reports about the same emergency merge into one incident, scored on text, distance, time and type.'],
+  ['Rank', 'Every incident gets a 0 to 100 priority with the reasons shown, so the queue explains itself.'],
+  ['Respond', 'The board is live for the whole team. Claim an incident so nobody doubles up, then resolve it.'],
+]
 
 export default function Landing() {
   return (
     <>
       <Seo {...seo} path="/" />
-      <div
-        data-testid="static-landing"
-        className="flex min-h-screen flex-col items-center justify-center px-6 text-center"
-      >
-        <p className="mb-3 text-sm uppercase tracking-widest text-muted-foreground">{APP_NAME}</p>
-        <h1 className="mb-4 max-w-2xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          A DeepSpace app with a static front door
-        </h1>
-        <p className="mb-8 max-w-md text-muted-foreground">
-          This landing page ships no auth call and no realtime connection — it's a
-          plain static page. The live app, with sign-in and synced data, lives
-          behind the link below.
-        </p>
-        <Link
-          to="/home"
-          className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-        >
-          Enter the app
-        </Link>
+      <div data-testid="static-landing" className="min-h-screen bg-background px-6 py-16 text-foreground">
+        <div className="mx-auto max-w-3xl">
+          <p className="mb-4 flex items-center gap-2 text-sm font-medium uppercase tracking-widest text-muted-foreground">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-500" aria-hidden /> Lifeline
+          </p>
+          <h1 className="mb-5 text-4xl font-bold tracking-tight sm:text-5xl">
+            Ten calls about one flood should be one incident.
+          </h1>
+          <p className="mb-8 max-w-xl text-lg text-muted-foreground">
+            Lifeline turns messy emergency reports into ranked, de-duplicated incidents on a live map that a whole
+            response team shares.
+          </p>
+          <Link
+            to="/board"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+          >
+            Open the board
+          </Link>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Sign in with GitHub or Google, then press <strong>Demo</strong> to load a storm scenario.
+          </p>
+          <ol className="mt-14 grid gap-4 sm:grid-cols-2">
+            {STEPS.map(([title, body], i) => (
+              <li key={title} className="rounded-lg border border-border bg-card p-4">
+                <p className="text-xs font-semibold text-primary">
+                  {i + 1}. {title}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-10 text-xs text-muted-foreground">
+            A prototype for exploring the idea, not a system for real emergency dispatch.
+          </p>
+        </div>
       </div>
     </>
   )
