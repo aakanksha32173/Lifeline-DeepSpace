@@ -82,8 +82,8 @@ export default function IncidentMap({
       style={{ cursor: pinMode ? 'crosshair' : undefined, background: '#0b1220' }}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapEvents onBounds={onBounds} onClick={(lat, lng) => pinMode && onPin(lat, lng)} />
       <FlyTo target={target} />
